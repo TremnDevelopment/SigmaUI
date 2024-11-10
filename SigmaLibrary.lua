@@ -90,12 +90,9 @@ function UI:CreateSlider(parent, position, size, min, max, initialValue, callbac
     local function updateValueFromKnobPosition()
         local barWidth = bar.AbsoluteSize.X
         local knobPositionX = knob.AbsolutePosition.X - bar.AbsolutePosition.X
-
-        if barWidth == 0 then return end -- Avoid division by zero
-
+        if barWidth == 0 then return end
         local value = math.clamp(min + (knobPositionX / barWidth) * (max - min), min, max)
         valueLabel.Text = tostring(math.floor(value))
-
         if callback then
             callback(math.floor(value))
         end
@@ -109,10 +106,11 @@ function UI:CreateSlider(parent, position, size, min, max, initialValue, callbac
 
     game:GetService("UserInputService").InputChanged:Connect(function(input)
         if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            local barWidth = bar.AbsoluteSize.X
+            if barWidth <= 0 then return end
             local mouseX = input.Position.X
             local barPositionX = bar.AbsolutePosition.X
-            local newPosX = math.clamp(mouseX - barPositionX, 0, bar.AbsoluteSize.X - knob.Size.X.Offset)
-
+            local newPosX = math.clamp(mouseX - barPositionX, 0, barWidth - knob.Size.X.Offset)
             knob.Position = UDim2.new(0, newPosX, 0.5, -10)
             updateValueFromKnobPosition()
         end
