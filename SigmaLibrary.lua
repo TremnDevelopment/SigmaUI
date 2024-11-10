@@ -1,5 +1,4 @@
 local UI = {}
-local TweenService = game:GetService("TweenService")
 
 function UI:CreateGUI(name)
     local gui = Instance.new("ScreenGui")
@@ -15,10 +14,6 @@ function UI:CreateGUI(name)
     frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     frame.Draggable = true
     frame.Parent = gui
-    
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = frame
 
     return frame
 end
@@ -30,19 +25,11 @@ function UI:CreateTabContainer(parent)
     tabContainer.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     tabContainer.Parent = parent
     tabContainer.Name = "TabContainer"
-    
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = tabContainer
 
     local tabs = Instance.new("Frame")
     tabs.Size = UDim2.new(1, 0, 0, 30)
     tabs.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     tabs.Parent = tabContainer
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = tabs
 
     local content = Instance.new("Frame")
     content.Size = UDim2.new(1, -150, 1, 0)
@@ -50,10 +37,11 @@ function UI:CreateTabContainer(parent)
     content.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     content.Parent = tabContainer
     content.Name = "Content"
-    
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = content
+
+    local layout = Instance.new("UIListLayout")
+    layout.FillDirection = Enum.FillDirection.Horizontal
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
+    layout.Parent = content
 
     return tabContainer, tabs, content
 end
@@ -68,10 +56,6 @@ function UI:CreateTab(parent, name, callback)
     tab.Parent = parent
     tab.Name = name
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = tab
-
     tab.MouseButton1Click:Connect(function()
         if callback then
             callback()
@@ -83,14 +67,10 @@ end
 
 function UI:CreateSection(tabContent, name)
     local section = Instance.new("Frame")
-    section.Size = UDim2.new(0, 300, 0, 150)
+    section.Size = UDim2.new(0, 200, 1, 0)
     section.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     section.Parent = tabContent
     section.Name = name
-    
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = section
 
     local sectionLabel = Instance.new("TextLabel")
     sectionLabel.Size = UDim2.new(1, 0, 0, 30)
@@ -100,27 +80,12 @@ function UI:CreateSection(tabContent, name)
     sectionLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     sectionLabel.Parent = section
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = sectionLabel
-
-    local scrollingFrame = Instance.new("ScrollingFrame")
-    scrollingFrame.Size = UDim2.new(1, 0, 1, -30)
-    scrollingFrame.Position = UDim2.new(0, 0, 0, 30)
-    scrollingFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    scrollingFrame.Parent = section
-    scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = scrollingFrame
-
     local listLayout = Instance.new("UIListLayout")
     listLayout.SortOrder = Enum.SortOrder.LayoutOrder
     listLayout.Padding = UDim.new(0, 10)
-    listLayout.Parent = scrollingFrame
+    listLayout.Parent = section
 
-    return section, scrollingFrame
+    return section
 end
 
 function UI:CreateButton(parent, text, callback)
@@ -131,10 +96,6 @@ function UI:CreateButton(parent, text, callback)
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
     button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     button.Parent = parent
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = button
 
     button.MouseButton1Click:Connect(function()
         if callback then
@@ -151,10 +112,6 @@ function UI:CreateToggle(parent, text, initialState, callback)
     toggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     toggle.Parent = parent
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = toggle
-
     local label = Instance.new("TextLabel")
     label.Size = UDim2.new(1, -40, 1, 0)
     label.Position = UDim2.new(0, 10, 0, 0)
@@ -164,20 +121,12 @@ function UI:CreateToggle(parent, text, initialState, callback)
     label.BackgroundTransparency = 1
     label.Parent = toggle
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = label
-
     local button = Instance.new("TextButton")
     button.Size = UDim2.new(0, 30, 0, 30)
     button.Position = UDim2.new(1, -40, 0, 5)
     button.Text = ""
     button.BackgroundColor3 = initialState and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
     button.Parent = toggle
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.5, 0)
-    corner.Parent = button
 
     button.MouseButton1Click:Connect(function()
         initialState = not initialState
@@ -195,10 +144,6 @@ function UI:CreateSlider(parent, min, max, initialValue, callback)
     slider.Size = UDim2.new(1, 0, 0, 40)
     slider.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     slider.Parent = parent
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = slider
 
     local bar = Instance.new("Frame")
     bar.Size = UDim2.new(1, 0, 0, 10)
