@@ -45,8 +45,8 @@ function UI:CreateTabContainer(parent)
     corner.Parent = tabs
 
     local content = Instance.new("Frame")
-    content.Size = UDim2.new(1, 0, 1, -30)
-    content.Position = UDim2.new(0, 0, 0, 30)
+    content.Size = UDim2.new(1, -150, 1, 0)
+    content.Position = UDim2.new(0, 150, 0, 0)
     content.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     content.Parent = tabContainer
     content.Name = "Content"
@@ -83,7 +83,7 @@ end
 
 function UI:CreateSection(tabContent, name)
     local section = Instance.new("Frame")
-    section.Size = UDim2.new(1, 0, 0, 150)
+    section.Size = UDim2.new(0, 300, 0, 150)
     section.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     section.Parent = tabContent
     section.Name = name
@@ -205,10 +205,6 @@ function UI:CreateSlider(parent, min, max, initialValue, callback)
     bar.Position = UDim2.new(0, 0, 0.5, -5)
     bar.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
     bar.Parent = slider
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = bar
 
     local knob = Instance.new("Frame")
     knob.Size = UDim2.new(0, 20, 0, 20)
