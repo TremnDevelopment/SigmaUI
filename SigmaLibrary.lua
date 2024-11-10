@@ -211,13 +211,4 @@ function UI:CreateSlider(parent, min, max, initialValue, callback)
     return slider
 end
 
-function UI:ShowSectionForTab(tab, sections)
-    for _, section in pairs(sections) do
-        section.Visible = false
-    end
-    if tab and sections[tab] then
-        sections[tab].Visible = true
-    end
-end
-
 return UI
