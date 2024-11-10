@@ -15,6 +15,10 @@ function UI:CreateGUI(name)
     frame.Draggable = true
     frame.Parent = gui
 
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0.1, 0)
+    corner.Parent = frame
+
     return frame
 end
 
@@ -26,10 +30,18 @@ function UI:CreateTabContainer(parent)
     tabContainer.Parent = parent
     tabContainer.Name = "TabContainer"
 
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0.1, 0)
+    corner.Parent = tabContainer
+
     local tabs = Instance.new("Frame")
     tabs.Size = UDim2.new(1, 0, 0, 30)
     tabs.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     tabs.Parent = tabContainer
+
+    local cornerTabs = Instance.new("UICorner")
+    cornerTabs.CornerRadius = UDim.new(0.1, 0)
+    cornerTabs.Parent = tabs
 
     local content = Instance.new("Frame")
     content.Size = UDim2.new(1, -150, 1, 0)
@@ -37,6 +49,10 @@ function UI:CreateTabContainer(parent)
     content.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     content.Parent = tabContainer
     content.Name = "Content"
+
+    local cornerContent = Instance.new("UICorner")
+    cornerContent.CornerRadius = UDim.new(0.1, 0)
+    cornerContent.Parent = content
 
     local layout = Instance.new("UIListLayout")
     layout.FillDirection = Enum.FillDirection.Horizontal
@@ -56,6 +72,10 @@ function UI:CreateTab(parent, name, callback)
     tab.Parent = parent
     tab.Name = name
 
+    local cornerTab = Instance.new("UICorner")
+    cornerTab.CornerRadius = UDim.new(0.1, 0)
+    cornerTab.Parent = tab
+
     tab.MouseButton1Click:Connect(function()
         if callback then
             callback()
@@ -73,6 +93,10 @@ function UI:CreateSection(tabContent, name)
     section.Name = name
     section.Visible = false
 
+    local cornerSection = Instance.new("UICorner")
+    cornerSection.CornerRadius = UDim.new(0.1, 0)
+    cornerSection.Parent = section
+
     local sectionLabel = Instance.new("TextLabel")
     sectionLabel.Size = UDim2.new(1, 0, 0, 30)
     sectionLabel.Text = name
@@ -80,6 +104,10 @@ function UI:CreateSection(tabContent, name)
     sectionLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
     sectionLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     sectionLabel.Parent = section
+
+    local cornerLabel = Instance.new("UICorner")
+    cornerLabel.CornerRadius = UDim.new(0.1, 0)
+    cornerLabel.Parent = sectionLabel
 
     local listLayout = Instance.new("UIListLayout")
     listLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -98,6 +126,10 @@ function UI:CreateButton(parent, text, callback)
     button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     button.Parent = parent
 
+    local cornerButton = Instance.new("UICorner")
+    cornerButton.CornerRadius = UDim.new(0.1, 0)
+    cornerButton.Parent = button
+
     button.MouseButton1Click:Connect(function()
         if callback then
             callback()
@@ -112,6 +144,10 @@ function UI:CreateToggle(parent, text, initialState, callback)
     toggle.Size = UDim2.new(1, 0, 0, 40)
     toggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     toggle.Parent = parent
+
+    local cornerToggle = Instance.new("UICorner")
+    cornerToggle.CornerRadius = UDim.new(0.1, 0)
+    cornerToggle.Parent = toggle
 
     local label = Instance.new("TextLabel")
     label.Size = UDim2.new(1, -40, 1, 0)
@@ -128,6 +164,10 @@ function UI:CreateToggle(parent, text, initialState, callback)
     button.Text = ""
     button.BackgroundColor3 = initialState and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
     button.Parent = toggle
+
+    local cornerButton = Instance.new("UICorner")
+    cornerButton.CornerRadius = UDim.new(0.5, 0)
+    cornerButton.Parent = button
 
     button.MouseButton1Click:Connect(function()
         initialState = not initialState
@@ -146,11 +186,19 @@ function UI:CreateSlider(parent, min, max, initialValue, callback)
     slider.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     slider.Parent = parent
 
+    local cornerSlider = Instance.new("UICorner")
+    cornerSlider.CornerRadius = UDim.new(0.1, 0)
+    cornerSlider.Parent = slider
+
     local bar = Instance.new("Frame")
     bar.Size = UDim2.new(1, 0, 0, 10)
     bar.Position = UDim2.new(0, 0, 0.5, -5)
     bar.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
     bar.Parent = slider
+
+    local cornerBar = Instance.new("UICorner")
+    cornerBar.CornerRadius = UDim.new(0.5, 0)
+    cornerBar.Parent = bar
 
     local knob = Instance.new("Frame")
     knob.Size = UDim2.new(0, 20, 0, 20)
@@ -158,9 +206,9 @@ function UI:CreateSlider(parent, min, max, initialValue, callback)
     knob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     knob.Parent = bar
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.5, 0)
-    corner.Parent = knob
+    local cornerKnob = Instance.new("UICorner")
+    cornerKnob.CornerRadius = UDim.new(0.5, 0)
+    cornerKnob.Parent = knob
 
     local valueLabel = Instance.new("TextLabel")
     valueLabel.Size = UDim2.new(1, 0, 0, 20)
