@@ -72,6 +72,10 @@ function UI:CreateSlider(parent, position, size, min, max, initialValue, callbac
     knob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     knob.Parent = bar
 
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0.5, 0)
+    corner.Parent = knob
+
     local valueLabel = Instance.new("TextLabel")
     valueLabel.Size = UDim2.new(1, 0, 0, 20)
     valueLabel.Position = UDim2.new(0, 0, 0, 10)
@@ -104,7 +108,6 @@ function UI:CreateSlider(parent, position, size, min, max, initialValue, callbac
             local mouseX = input.Position.X
             local barPositionX = bar.AbsolutePosition.X
             local newPosX = math.clamp(mouseX - barPositionX, 0, bar.Size.X.Offset)
-
             knob.Position = UDim2.new(0, newPosX, 0.5, -10)
             updateValueFromKnobPosition()
         end
