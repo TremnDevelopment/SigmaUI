@@ -1,9 +1,91 @@
 local UI = {}
 
-function UI:CreateButton(parent, position, size, text, callback)
+function UI:CreateGUI(name)
+    local gui = Instance.new("ScreenGui")
+    gui.Name = name or "MyGUI"
+    gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    gui.ResetOnSpawn = false
+    gui.IgnoreGuiInset = true
+    
+    local frame = Instance.new("Frame")
+    frame.Name = "MainFrame"
+    frame.Size = UDim2.new(0, 600, 0, 400)
+    frame.Position = UDim2.new(0.5, -300, 0.5, -200)
+    frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    frame.Draggable = true
+    frame.Parent = gui
+
+    return frame
+end
+
+function UI:CreateTabContainer(parent)
+    local tabContainer = Instance.new("Frame")
+    tabContainer.Size = UDim2.new(0, 150, 1, 0)
+    tabContainer.Position = UDim2.new(0, 0, 0, 0)
+    tabContainer.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    tabContainer.Parent = parent
+    tabContainer.Name = "TabContainer"
+
+    local tabs = Instance.new("Frame")
+    tabs.Size = UDim2.new(1, 0, 0, 30)
+    tabs.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    tabs.Parent = tabContainer
+
+    local content = Instance.new("Frame")
+    content.Size = UDim2.new(1, 0, 1, -30)
+    content.Position = UDim2.new(0, 0, 0, 30)
+    content.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    content.Parent = tabContainer
+    content.Name = "Content"
+
+    return tabContainer, tabs, content
+end
+
+function UI:CreateTab(parent, name, callback)
+    local tab = Instance.new("TextButton")
+    tab.Size = UDim2.new(1, 0, 0, 30)
+    tab.Text = name
+    tab.TextSize = 16
+    tab.TextColor3 = Color3.fromRGB(255, 255, 255)
+    tab.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    tab.Parent = parent
+    tab.Name = name
+
+    tab.MouseButton1Click:Connect(function()
+        if callback then
+            callback()
+        end
+    end)
+
+    return tab
+end
+
+function UI:CreateSection(tabContent, name)
+    local section = Instance.new("Frame")
+    section.Size = UDim2.new(1, 0, 0, 150)
+    section.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    section.Parent = tabContent
+    section.Name = name
+
+    local sectionLabel = Instance.new("TextLabel")
+    sectionLabel.Size = UDim2.new(1, 0, 0, 30)
+    sectionLabel.Text = name
+    sectionLabel.TextSize = 16
+    sectionLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    sectionLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    sectionLabel.Parent = section
+
+    local listLayout = Instance.new("UIListLayout")
+    listLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    listLayout.Padding = UDim.new(0, 10)
+    listLayout.Parent = section
+
+    return section
+end
+
+function UI:CreateButton(parent, text, callback)
     local button = Instance.new("TextButton")
-    button.Size = size
-    button.Position = position
+    button.Size = UDim2.new(1, 0, 0, 40)
     button.Text = text
     button.TextSize = 18
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -19,15 +101,14 @@ function UI:CreateButton(parent, position, size, text, callback)
     return button
 end
 
-function UI:CreateToggle(parent, position, size, text, initialState, callback)
+function UI:CreateToggle(parent, text, initialState, callback)
     local toggle = Instance.new("Frame")
-    toggle.Size = size
-    toggle.Position = position
+    toggle.Size = UDim2.new(1, 0, 0, 40)
     toggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     toggle.Parent = parent
 
     local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, -30, 1, 0)
+    label.Size = UDim2.new(1, -40, 1, 0)
     label.Position = UDim2.new(0, 10, 0, 0)
     label.Text = text
     label.TextSize = 16
@@ -53,10 +134,9 @@ function UI:CreateToggle(parent, position, size, text, initialState, callback)
     return toggle
 end
 
-function UI:CreateSlider(parent, position, size, min, max, initialValue, callback)
+function UI:CreateSlider(parent, min, max, initialValue, callback)
     local slider = Instance.new("Frame")
-    slider.Size = size
-    slider.Position = position
+    slider.Size = UDim2.new(1, 0, 0, 40)
     slider.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     slider.Parent = parent
 
