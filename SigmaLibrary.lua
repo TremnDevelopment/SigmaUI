@@ -83,6 +83,16 @@ function UI:CreateSlider(parent, position, size, min, max, initialValue, callbac
 
     local dragging = false
 
+    local function updateValueFromKnobPosition()
+        local knobPositionX = knob.Position.X.Offset
+        local barWidth = bar.Size.X.Offset
+        local value = math.clamp(min + (knobPositionX / barWidth) * (max - min), min, max)
+        valueLabel.Text = tostring(math.floor(value))
+        if callback then
+            callback(math.floor(value))
+        end
+    end
+
     knob.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
             dragging = true
@@ -91,15 +101,12 @@ function UI:CreateSlider(parent, position, size, min, max, initialValue, callbac
 
     game:GetService("UserInputService").InputChanged:Connect(function(input)
         if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            local newPos = math.clamp(input.Position.X - bar.AbsolutePosition.X, 0, bar.Size.X.Offset)
-            knob.Position = UDim2.new(0, newPos, 0.5, -10)
+            local mouseX = input.Position.X
+            local barPositionX = bar.AbsolutePosition.X
+            local newPosX = math.clamp(mouseX - barPositionX, 0, bar.Size.X.Offset)
 
-            local value = math.floor(min + (newPos / bar.Size.X.Offset) * (max - min))
-            valueLabel.Text = tostring(value)
-
-            if callback then
-                callback(value)
-            end
+            knob.Position = UDim2.new(0, newPosX, 0.5, -10)
+            updateValueFromKnobPosition()
         end
     end)
 
