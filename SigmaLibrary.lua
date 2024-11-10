@@ -88,10 +88,14 @@ function UI:CreateSlider(parent, position, size, min, max, initialValue, callbac
     local dragging = false
 
     local function updateValueFromKnobPosition()
-        local knobPositionX = knob.Position.X.Offset
         local barWidth = bar.Size.X.Offset
+        local knobPositionX = knob.Position.X.Offset
+
+        if barWidth == 0 then return end -- Avoid division by zero
+
         local value = math.clamp(min + (knobPositionX / barWidth) * (max - min), min, max)
         valueLabel.Text = tostring(math.floor(value))
+
         if callback then
             callback(math.floor(value))
         end
@@ -108,6 +112,7 @@ function UI:CreateSlider(parent, position, size, min, max, initialValue, callbac
             local mouseX = input.Position.X
             local barPositionX = bar.AbsolutePosition.X
             local newPosX = math.clamp(mouseX - barPositionX, 0, bar.Size.X.Offset)
+
             knob.Position = UDim2.new(0, newPosX, 0.5, -10)
             updateValueFromKnobPosition()
         end
