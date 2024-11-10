@@ -68,7 +68,7 @@ function UI:CreateSlider(parent, position, size, min, max, initialValue, callbac
 
     local knob = Instance.new("Frame")
     knob.Size = UDim2.new(0, 20, 0, 20)
-    knob.Position = UDim2.new(0, (initialValue - min) / (max - min) * bar.Size.X.Offset, 0.5, -10)
+    knob.Position = UDim2.new(0, (initialValue - min) / (max - min) * bar.AbsoluteSize.X, 0.5, -10)
     knob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     knob.Parent = bar
 
