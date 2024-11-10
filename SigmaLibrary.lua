@@ -91,7 +91,7 @@ function UI:CreateSlider(parent, position, size, min, max, initialValue, callbac
         local barWidth = bar.AbsoluteSize.X
         local knobPositionX = knob.AbsolutePosition.X - bar.AbsolutePosition.X
 
-        if barWidth == 0 then return end -- Avoid division by zero
+        if barWidth == 0 then return end
 
         local value = math.clamp(min + (knobPositionX / barWidth) * (max - min), min, max)
         valueLabel.Text = tostring(math.floor(value))
