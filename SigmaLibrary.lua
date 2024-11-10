@@ -71,6 +71,7 @@ function UI:CreateSection(tabContent, name)
     section.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     section.Parent = tabContent
     section.Name = name
+    section.Visible = false
 
     local sectionLabel = Instance.new("TextLabel")
     sectionLabel.Size = UDim2.new(1, 0, 0, 30)
@@ -170,10 +171,6 @@ function UI:CreateSlider(parent, min, max, initialValue, callback)
     valueLabel.BackgroundTransparency = 1
     valueLabel.Parent = slider
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.1, 0)
-    corner.Parent = valueLabel
-
     local dragging = false
 
     local function updateValueFromKnobPosition()
@@ -212,6 +209,15 @@ function UI:CreateSlider(parent, min, max, initialValue, callback)
     end)
 
     return slider
+end
+
+function UI:ShowSectionForTab(tab, sections)
+    for _, section in pairs(sections) do
+        section.Visible = false
+    end
+    if tab and sections[tab] then
+        sections[tab].Visible = true
+    end
 end
 
 return UI
