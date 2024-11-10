@@ -61,12 +61,14 @@ function UI:CreateTab(parent, name, callback)
 end
 
 function UI:CreateSection(tabContent, name)
+    -- Create a frame for the section
     local section = Instance.new("Frame")
     section.Size = UDim2.new(1, 0, 0, 150)
     section.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     section.Parent = tabContent
     section.Name = name
 
+    -- Section label
     local sectionLabel = Instance.new("TextLabel")
     sectionLabel.Size = UDim2.new(1, 0, 0, 30)
     sectionLabel.Text = name
@@ -75,12 +77,21 @@ function UI:CreateSection(tabContent, name)
     sectionLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     sectionLabel.Parent = section
 
+    -- Create a ScrollingFrame for the content if this is for a scrollable list
+    local scrollingFrame = Instance.new("ScrollingFrame")
+    scrollingFrame.Size = UDim2.new(1, 0, 1, -30) -- Adjust to leave space for the label
+    scrollingFrame.Position = UDim2.new(0, 0, 0, 30)
+    scrollingFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    scrollingFrame.Parent = section
+    scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0) -- Set the canvas size dynamically later
+
+    -- Add the UIListLayout to the scrolling frame
     local listLayout = Instance.new("UIListLayout")
     listLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    listLayout.Padding = UDim.new(0, 10)
-    listLayout.Parent = section
+    listLayout.Padding = UDim.new(0, 10)  -- Add padding between items
+    listLayout.Parent = scrollingFrame
 
-    return section
+    return section, scrollingFrame
 end
 
 function UI:CreateButton(parent, text, callback)
